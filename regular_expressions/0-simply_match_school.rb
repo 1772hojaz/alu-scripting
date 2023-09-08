@@ -1,2 +1,3 @@
 #!/usr/bin/env ruby
-puts ARGV[0].scan(/School/).join
+#humphrey nyahoja
+puts ARGV.scan(/School/).join
