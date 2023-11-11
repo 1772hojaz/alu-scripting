@@ -20,9 +20,11 @@ def top_ten(subreddit):
             print(None)
     except request.RequestException as e:
         print(None)
+        print(str(e))
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
-        top_ten(sys.argv[1])
+    top_ten = __import__('1-top_ten').top_ten
+    if len(sys.argv) < 2:
+        print("Please pass an argument for the subreddit to search.")
     else:
-        print(None)
+        top_ten(sys.argv[1])
