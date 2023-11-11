@@ -11,6 +11,8 @@ def subscribers_num(subreddit):
    """
    Recursive function that queries the Reddit API and returns a list
    containing the titles of all hot articles for a given subreddit
+   args:
+   subreddit: the name of the subreddit
    """
    headers = {'User-Agent': 'Python:SubredditSubscriberCounter:v1.0 (by /u/1772hojaz)'}
    url = f'https://www.reddit.com/r/{subreddit}/about.json'
