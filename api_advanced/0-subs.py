@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""This module provides a function `subscribers_num` that queries the Reddit API"""
+"""
+Python script that returns the number of subscribers
+"""
 import requests
 import sys
 
