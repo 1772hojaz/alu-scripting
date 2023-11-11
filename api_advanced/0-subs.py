@@ -1,30 +1,21 @@
 #!/usr/bin/python3
-"""Python script that returns the number of subscribers"""
+"""this module contains a function that returns the number"""
 import requests
-import sys
 
 
-def subscribers_num(subreddit):
-   """Recursive function that queries the Reddit API and returns a list"""
-   headers = {'User-Agent': 'Python:SubredditSubscriberCounter:v1.0 (by /u/1772hojaz)'}
-   url = f'https://www.reddit.com/r/{subreddit}/about.json'
+def number_of_subscribers(subreddit):
+    """this function returns the number of subscribers"""
+    reddit_url = "https://www.reddit.com/r/{}/about.json" \
+        .format(subreddit)
 
+    header = {
+        'User-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
+    response = requests.get(reddit_url,
+                            headers=header
+                            )
 
-   try:
-       response = requests.get(url, headers=headers, allow_redirects=False)
-       if response.status_code == 200:
-           data = response.json()
-           return data['data']['subscribers']
-       else:
-           return 0
-   except Exception as e:
-       return 0
-
-
-if __name__ == '__main__':
-   if len(sys.argv) < 2:
-       print("Please pass an argument for the subreddit to search.")
-   else:
-       subreddit_name = sys.argv[1]
-       subscribers = subscribers_num(subreddit_name)
-       print(f"{subscribers}")
+    if response.status_code == 200:
+        data = response.json()['data']
+        subs = data['subscribers']
+        return subs
+    return 0
