@@ -1,36 +1,34 @@
 #!/usr/bin/python3
 """
-This module contains a function that queries the Reddit API and
- returns the number of subscribers for a given subreddit.
+Python script that returns the number of subscribers for a given subreddit
 """
 import requests
+import sys
 
 
-def subscribers_(subreddit):
-    """
-    Queries the Reddit API for the number of subscribers for a given subreddit.
-
-    Args:
-        subreddit (str): The subreddit to query.
-
-    Returns:
-        int: The number of subscribers for the subreddit,
-    or 0 if the subreddit is invalid.
-    """
-    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
-    headers = {'User-Agent': 'python3:0-subs:v1.0 (by /u/yourusername)'}
-
-    response = requests.get(url, headers=headers, allow_redirects=False)
-    if response.status_code == 200:
-        return response.json().get('data', {}).get('subscribers', 0)
-    else:
-        return 0
+def subscribers_num(subreddit):
+   """
+   Recursive function that queries the Reddit API and returns a list
+   """
+   headers = {'User-Agent': 'Python:SubredditSubscriberCounter:v1.0 (by /u/1772hojaz)'}
+   url = f'https://www.reddit.com/r/{subreddit}/about.json'
 
 
-if __name__ == "__main__":
-    import sys
+   try:
+       response = requests.get(url, headers=headers, allow_redirects=False)
+       if response.status_code == 200:
+           data = response.json()
+           return data['data']['subscribers']
+       else:
+           return 0
+   except Exception as e:
+       return 0
 
-    if len(sys.argv) < 2:
-        print("pass an argument for the search.")
-    else:
-        print("{:d}".format(subscribers_num(sys.argv[1])))
+
+if __name__ == '__main__':
+   if len(sys.argv) < 2:
+       print("Please pass an argument for the subreddit to search.")
+   else:
+       subreddit_name = sys.argv[1]
+       subscribers = subscribers_num(subreddit_name)
+       print(f"{subscribers}")
