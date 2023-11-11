@@ -1,19 +1,11 @@
 #!/usr/bin/python3
-"""
-Python script that returns the number of subscribers for a given subreddit
-to the Reddit API
-"""
+"""Python script that returns the number of subscribers"""
 import requests
 import sys
 
 
 def subscribers_num(subreddit):
-   """
-   Recursive function that queries the Reddit API and returns a list
-   containing the titles of all hot articles for a given subreddit
-   args:
-   subreddit: the name of the subreddit
-   """
+   """Recursive function that queries the Reddit API and returns a list"""
    headers = {'User-Agent': 'Python:SubredditSubscriberCounter:v1.0 (by /u/1772hojaz)'}
    url = f'https://www.reddit.com/r/{subreddit}/about.json'
 
