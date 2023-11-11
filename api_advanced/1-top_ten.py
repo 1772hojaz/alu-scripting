@@ -17,3 +17,4 @@ def top_ten(subreddit):
             return  "OK"
     else:
         print(None)
+        return "None"
