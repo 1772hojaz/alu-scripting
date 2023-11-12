@@ -1,11 +1,11 @@
 #!/usr/bin/python3
-"""the function that queries the Reddit API"""
+""" 3-count.py """
 import json
 import requests
 
 
 def count_words(subreddit, word_list, after="", count=[]):
-    """ the actual function that counts the occurrences of words """
+    """ prints a sorted count of given keywords """
 
     if after == "":
         count = [0] * len(word_list)
