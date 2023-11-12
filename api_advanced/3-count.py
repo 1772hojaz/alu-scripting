@@ -1,6 +1,5 @@
 #!/usr/bin/python3
-"""the  function that queries the Reddit
-API and returns the number of subscribers"""
+""" 3-count.py """
 import json
 import requests
 
