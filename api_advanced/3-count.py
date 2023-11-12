@@ -1,27 +1,26 @@
 #!/usr/bin/python3
-""" Counting words """
+"""the  function that queries the Reddit
+API and returns the number of subscribers"""
 import json
 import requests
 
 
 def count_words(subreddit, word_list, after="", count=[]):
-    """ the function that queries the Reddit API from the given subreddit"""
+    """ prints a sorted count of given keywords """
 
     if after == "":
         count = [0] * len(word_list)
 
     url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-    request = requests.get(
-        url,
-        params={'after': after},
-        allow_redirects=False,
-        headers={'User-Agent': 'Mozilla/5.0'}
-    )
+    request = requests.get(url,
+                           params={'after': after},
+                           allow_redirects=False,
+                           headers={'User-Agent': 'Mozilla/5.0'})
 
     if request.status_code == 200:
         data = request.json()
 
-        for topic in data['data']['children']:
+        for topic in (data['data']['children']):
             for word in topic['data']['title'].split():
                 for i in range(len(word_list)):
                     if word_list[i].lower() == word.lower():
@@ -41,8 +40,12 @@ def count_words(subreddit, word_list, after="", count=[]):
                     if (count[j] > count[i] or
                             (word_list[i] > word_list[j] and
                              count[j] == count[i])):
-                        count[i], count[j] = count[j], count[i]
-                        word_list[i], word_list[j] = word_list[j], word_list[i]
+                        aux = count[i]
+                        count[i] = count[j]
+                        count[j] = aux
+                        aux = word_list[i]
+                        word_list[i] = word_list[j]
+                        word_list[j] = aux
 
             for i in range(len(word_list)):
                 if (count[i] > 0) and i not in save:
