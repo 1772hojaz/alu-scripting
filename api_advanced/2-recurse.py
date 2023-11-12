@@ -1,38 +1,26 @@
 #!/usr/bin/python3
-"""
-Recursive function that queries the Reddit API and returns a list
-containing the titles of all hot articles for a given subreddit
-"""
-import sys
+"""this module returns the titles of the top 10 hot posts"""
 import requests
 
 
-def recurse(subreddit, hot_list=[], after=''):
-    url = f'https://www.reddit.com/r/{subreddit}/hot.json?limit=100&after={after}'
-    headers = {'User-Agent': 'python:recurse:v1.0 (by /u/yourusername)'}
-    response = requests.get(url, headers=headers, allow_redirects=False)
+def recurse(subreddit, hot_list=[], after=None):
+    """"the function that queries the Reddit API"""
+    url = "https://www.reddit.com/r/{}/hot.json" \
+        .format(subreddit)
+    header = {'User-Agent': 'Mozilla/5.0'}
+    param = {'after': after}
+    resopnse = requests.get(url, headers=header, params=param)
 
-    if response.status_code != 200:
+    if resopnse.status_code != 200:
         return None
-
-    try:
-        data = response.json()
-        posts = data['data']['children']
-        hot_list += [post['data']['title'] for post in posts]
-        after = data['data']['after']
-
-        if after is not None:
-            return recurse(subreddit, hot_list, after)
-        return hot_list
-    except Exception as e:
-        return None
-
-if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print("Please pass an argument for the subreddit to search.")
     else:
-        result = recurse(sys.argv[1])
-        if result is not None:
-            print(len(result))
-        else:
-            print("None")
+        json_res = resopnse.json()
+        after = json_res.get('data').get('after')
+        has_next = \
+            json_res.get('data').get('after') is not None
+        hot_articles = json_res.get('data').get('children')
+        [hot_list.append(article.get('data').get('title'))
+         for article in hot_articles]
+
+        return recurse(subreddit, hot_list, after=after) \
+            if has_next else hot_list
